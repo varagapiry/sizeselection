@@ -1826,23 +1826,21 @@ window.CanvasWizard = { CanvasWizardDesktop, CanvasWizardMobile };
 
 })();
 
-// ===== INLINED FROM ninja-wizard.jsx (IIFE-scoped) =====
+// ===== INLINED FROM presets-wizard.jsx (IIFE-scoped) =====
 (function() {
-// Variant D — Ninja Restored, with "Your placements" pill row
+// Variant D — Presets, with "Your placements" pill row
 //
-// Updates from previous version:
-//   1. Removed color preview row + cross-sell block (no preview anywhere in D).
-//   2. Custom rows now show both Price (per-unit) AND Total (qty × per-unit)
-//      so changing Qty reflects in the price column — matches the Popular tab.
-//   3. NEW: "Your placements" pill row below the cumulative discount slider.
-//      Shows every selected row across BOTH tabs as a removable pill —
-//      so when the user is on the Popular tab they can still see and remove
-//      their Custom selections (and vice versa). Tap pill text → switch to
-//      that tab. Tap × → remove that row.
+// Custom Size / Popular Size tab toggle. Custom panel uses W×H×Qty stepper
+// rows with Price + Total columns. Popular panel uses the chip-first
+// experience: chip strip on top, selected preset rows directly below — tap a
+// preset chip and the new row drops in right under the strip.
 //
-// Custom Size / Popular Size tab toggle is preserved. Popular tab uses the
-// original chip-based "+ Add another preset" UX with selected presets as
-// clean rows. Headline "Where should it print?" matches A/B/C. No bottom CTA.
+// "Your placements" pill row below the cumulative discount slider shows every
+// selected row across BOTH tabs as a removable pill, so the user can manage
+// Custom selections from the Popular tab and vice versa. Tap pill text →
+// switch to that tab. Tap × → remove that row.
+//
+// Headline "Where should it print?" matches A/B/C. No bottom CTA.
 
 const _NS = window.BWShared;
 const { C: NC, Icon: NI, ScarcityBadge: NScarcity, TrustLine: NTrust,
@@ -2070,7 +2068,7 @@ function TabBtn({ label, sel, onClick }) {
 }
 
 // ─────────── Variant D core ───────────
-function NinjaWizardCore({ isMobile = false }) {
+function PresetsWizardCore({ isMobile = false }) {
   const [tab, setTab] = React.useState('custom');
   const [customRows, setCustomRows] = React.useState([{ w: 7.38, h: 6.48, qty: 1 }]);
   const [popularRows, setPopularRows] = React.useState([]);
@@ -2359,10 +2357,10 @@ function NinjaWizardCore({ isMobile = false }) {
   );
 }
 
-function NinjaWizardDesktop() { return <NinjaWizardCore isMobile={false}/>; }
-function NinjaWizardMobile()  { return <NinjaWizardCore isMobile={true}/>; }
+function PresetsWizardDesktop() { return <PresetsWizardCore isMobile={false}/>; }
+function PresetsWizardMobile()  { return <PresetsWizardCore isMobile={true}/>; }
 
-window.NinjaWizard = { NinjaWizardDesktop, NinjaWizardMobile };
+window.PresetsWizard = { PresetsWizardDesktop, PresetsWizardMobile };
 
 })();
 
@@ -2777,7 +2775,7 @@ window.JiffyCloneWizard = { JiffyCloneWizardDesktop, JiffyCloneWizardMobile };
   const BW = window.BoldWizard;
   const AW = window.AccordionWizard;
   const CW = window.CanvasWizard;
-  const DW = window.NinjaWizard;
+  const DW = window.PresetsWizard;
   const EW = window.JiffyCloneWizard;
 
   // ============================================================
@@ -2813,12 +2811,12 @@ window.JiffyCloneWizard = { JiffyCloneWizardDesktop, JiffyCloneWizardMobile };
     },
     {
       id: 'D',
-      label: 'D · Ninja Restored',
-      name: 'Ninja Restored Wizard',
+      label: 'D · Presets',
+      name: 'Presets Wizard',
       tagline: 'Custom / Popular Size tabs. Popular tab uses chip-based "+ Add another preset" + clean preset rows (label · W″×H″ · Smart Sizing Applied · Qty · Price · ✕).',
-      desktop: DW.NinjaWizardDesktop,
-      mobile: DW.NinjaWizardMobile,
-      blurb: <>Ninja's idea — kept and shaped to fit Jiffy. <strong>Custom Size / Popular Size tab toggle</strong>. The Custom panel is the shared W×H×Qty stepper rows. The Popular panel uses a different ergonomics from Ninja: each <strong>selected preset renders as a clean row</strong> (label, W″×H″, Smart Sizing Applied indicator, Qty stepper, price, total, 40% off, ✕). Below the rows, a <strong>chip area exposes every still-unselected preset</strong> — one tap adds it as a new row. Layered with subhint + savings $ line + max-canvas validation + color preview row + USP/trust row + shared "Where should it print?" headline. No bottom Continue CTA. <strong>Best for:</strong> A/B test arm against B — preserves the spirit of Ninja's flat-rows pattern while making preset discovery visual rather than hidden in a dropdown.</>,
+      desktop: DW.PresetsWizardDesktop,
+      mobile: DW.PresetsWizardMobile,
+      blurb: <><strong>Custom Size / Popular Size tab toggle</strong>. The Custom panel uses W×H×Qty stepper rows. The Popular panel uses a chip-first experience: each <strong>selected preset renders as a clean row</strong> (label, W″×H″, Smart Sizing Applied indicator, Qty stepper, price, total, 40% off, ✕). Above the rows, a <strong>chip area exposes every still-unselected preset</strong> — one tap adds it as a new row directly below, no scroll-up needed on mobile. Includes subhint, savings $ line, max-canvas validation, color preview row, USP/trust row, and the shared "Where should it print?" headline. No bottom Continue CTA. <strong>Best for:</strong> users who like a flat-rows + smart-sized presets model with visual preset discovery (chips in plain sight rather than buried in a dropdown).</>,
     },
     {
       id: 'E',
@@ -2844,7 +2842,7 @@ window.JiffyCloneWizard = { JiffyCloneWizardDesktop, JiffyCloneWizardMobile };
           <div className="eyebrow">DTF Step 2 · Live prototype</div>
           <h1>Five takes on the same wizard</h1>
           <p className="lede">
-            Live, interactive prototype of all five variants — Tabs, Accordion, Canvas, Ninja Restored, and Jiffy Live Clone — sharing the same data model, copy, and pricing logic. Toggle between variants and Desktop / Mobile views to compare. Scoring and pros/cons live in the separate UX audit document.
+            Live, interactive prototype of all five variants — Tabs, Accordion, Canvas, Presets, and Jiffy Live Clone — sharing the same data model, copy, and pricing logic. Toggle between variants and Desktop / Mobile views to compare. Scoring and pros/cons live in the separate UX audit document.
           </p>
         </div>
 
